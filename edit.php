@@ -44,8 +44,7 @@ else {
 
 if ($mform->is_cancelled()) {
     //Back to manage.php
-    redirect($CFG->wwwroot . '/local/footballscore/manage.php');
-
+    redirect(new moodle_url('/local/footballscore/manage.php'));
 } else if ($fromform = $mform->get_data()) {
     // Inserting data to DB
     $recordstoinsert = new stdClass();
