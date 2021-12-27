@@ -1,3 +1,3 @@
-# moodle-local_footballscore
+# Football score plugin 
 
-Moodle local plugin, a simple implementation of CRUD operation. 
+Moodle local plugin, a simple implementation of CRUD operation in moodle. 
