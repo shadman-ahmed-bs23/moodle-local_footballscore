@@ -34,7 +34,7 @@ $PAGE->set_title('Delete Score');
 
 try {
     $DB->delete_records('local_footballscore', array('id' => $id));
-    redirect(new moodle_url('/local/footballscore/manage.php'), "The record was deleted successfully!");
+    redirect(new moodle_url('/local/footballscore/manage.php'), get_string('deletemessage', 'local_footballscore'));
 } catch (Exception $exception) {
     throw new moodle_exception($exception);
 }

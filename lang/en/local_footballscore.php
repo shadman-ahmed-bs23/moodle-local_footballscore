@@ -29,3 +29,7 @@ $string['goal1'] = 'Goals scored by Team 1: ';
 $string['team2'] = 'Name of Team 2: ';
 $string['goal2'] = 'Goals scored by Team 2: ';
 $string['createoredit'] = 'Create or Edit a Entry';
+$string['updatethanks'] = 'Thanks for updating a record';
+$string['insertthanks'] = 'Thanks for inserting a record';
+$string['deletemessage'] = "The record was deleted successfully!";
+

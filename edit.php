@@ -56,12 +56,12 @@ if ($mform->is_cancelled()) {
         $recordstoinsert->id = $fromform->id;
         $DB->update_record('local_footballscore', $recordstoinsert);
         // Go back to manage page.
-        redirect($CFG->wwwroot.'/local/footballscore/manage.php',"Thanks for updating a record.");
+        redirect(new moodle_url('/local/footballscore/manage.php'), get_string('updatethanks', 'local_footballscore'));
 
     } else {
         $DB->insert_record('local_footballscore', $recordstoinsert);
         // Go back to manage page.
-        redirect($CFG->wwwroot.'/local/footballscore/manage.php',"Thanks for inserting a record.");
+        redirect(new moodle_url('/local/footballscore/manage.php'), get_string('insertthanks', 'local_footballscore'));
     }
 }
 
