@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Edit or Create a record.
  *
  * @package    local_footballscore
  * @copyright  2021 Shadman Ahmed
@@ -32,25 +32,14 @@ try {
     print_r($exception);
 }
 
-
 $id = optional_param('id', 0, PARAM_INT);
 $PAGE->set_url(new moodle_url('/local/footballscore/edit.php', array('id' => $id)));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title(get_string('createoredit', 'local_footballscore'));
-global $DB;
 
-// To be passed in the constructor of edit form.
-$actionurl = new moodle_url('/local/footballscore/edit.php');
-if ($id) {
-    $score = $DB->get_record('local_footballscore', array('id' => $id));
-    $mform=new edit_form($actionurl, $score);
-}
-else {
-    $mform = new edit_form($actionurl);
-}
+$mform = local_footballscore_init_form($id);
 
-// Edit or create a record for score.
-local_footballscore_edit_score($id, $mform);
+local_footballscore_edit_score($mform, $id);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('createoredit', 'local_footballscore'));
