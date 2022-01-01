@@ -42,10 +42,32 @@ function local_footballscore_display_scores( ) {
 }
 
 /**
+ * This function init the edit_form class and return the object.
+ *
+ * @param int $id
+ * @return edit_form
+ * @throws dml_exception
+ */
+function local_footballscore_init_form($id = null): edit_form {
+    global $DB;
+    // To be passed in the constructor of edit form.
+    $actionurl = new moodle_url('/local/footballscore/edit.php');
+
+    if ($id) {
+        $score = $DB->get_record('local_footballscore', array('id' => $id));
+        $mform=new edit_form($actionurl, $score);
+    }
+    else {
+        $mform = new edit_form($actionurl);
+    }
+    return $mform;
+}
+
+/**
  * This function create or edit a single record.
  *
  * @param int $id
- * @param stdClass $mform
+ * @param edit_form $mform
  * @return void
  */
 function local_footballscore_edit_score($mform, $id = null) {
@@ -54,22 +76,33 @@ function local_footballscore_edit_score($mform, $id = null) {
         //Back to manage.php
         redirect(new moodle_url('/local/footballscore/manage.php'));
     } else if ($fromform = $mform->get_data()) {
-        // Inserting data to DB
+        // Handing the form data.
         $recordstoinsert = new stdClass();
         $recordstoinsert->team1=$fromform->team1;
         $recordstoinsert->team2=$fromform->team2;
         $recordstoinsert->goal1=$fromform->goal1;
         $recordstoinsert->goal2=$fromform->goal2;
         if($fromform->id) {
+            // Update the record.
             $recordstoinsert->id = $fromform->id;
             $DB->update_record('local_footballscore', $recordstoinsert);
             // Go back to manage page.
             redirect(new moodle_url('/local/footballscore/manage.php'), get_string('updatethanks', 'local_footballscore'));
 
         } else {
+            // Insert the record.
             $DB->insert_record('local_footballscore', $recordstoinsert);
             // Go back to manage page.
             redirect(new moodle_url('/local/footballscore/manage.php'), get_string('insertthanks', 'local_footballscore'));
         }
+    }
+}
+
+function local_footballscore_delete_score($id) {
+    global $DB;
+    try {
+        $DB->delete_records('local_footballscore', array('id' => $id));
+    } catch (Exception $exception) {
+        throw new moodle_exception($exception);
     }
 }

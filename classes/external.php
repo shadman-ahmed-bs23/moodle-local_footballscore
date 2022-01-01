@@ -23,7 +23,7 @@
  */
 
 require_once($CFG->libdir . "/externallib.php");
-require_once($CFG->dirroot . "/course/externallib.php");
+require_once($CFG->dirroot . "/local/footballscore/locallib.php");
 
 class local_footballscore_external extends external_api {
     /**
@@ -33,22 +33,24 @@ class local_footballscore_external extends external_api {
     public static function delete_score_by_id_parameters(): external_function_parameters {
         return new external_function_parameters(
             array(
-                'id' => new external_value(PARAM_INT, 'score id'),
+                'scoreid' => new external_value(PARAM_INT, 'score id'),
             )
         );
     }
 
     /**
-     * @param int $id
+     * @param int $scoreid
      * @return array
      */
-    public static function delete_score_by_id(int $id): array {
+    public static function delete_score_by_id(int $scoreid): array {
         global $DB;
 
         $warnings = array();
 
+        local_footballscore_delete_score($scoreid);
+
         return array(
-            'id' => $id,
+            'scoreid' => $scoreid,
             'warnings' => $warnings
         );
 
@@ -61,7 +63,7 @@ class local_footballscore_external extends external_api {
     public static function delete_score_by_id_returns() {
         return new external_single_structure(
             array(
-                'id' => new external_value(PARAM_INT, 'score id'),
+                'scoreid' => new external_value(PARAM_INT, 'score id'),
                 'warnings' => new external_warnings()
             )
         );
