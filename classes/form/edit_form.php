@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//moodleform is defined in formslib.php
 require_once("$CFG->libdir/formslib.php");
 
 class edit_form extends moodleform {
@@ -44,23 +43,23 @@ class edit_form extends moodleform {
 
         $mform->addElement('hidden', 'id', get_string('id', 'local_footballscore'));
         $mform->setType('id', PARAM_INT);
-        $mform->setDefault('id', $this->data->id);
+        $mform->setDefault('id', $this->data->id ?? "");
 
         $mform->addElement('text', 'team1', get_string('team1', 'local_footballscore'));
         $mform->setType('team1', PARAM_TEXT);
-        $mform->setDefault('team1', $this->data->team1);
+        $mform->setDefault('team1', $this->data->team1 ?? "");
 
         $mform->addElement('text', 'goal1', get_string('goal1', 'local_footballscore'));
         $mform->setType('goal1', PARAM_INT);
-        $mform->setDefault('goal1', $this->data->goal1);
+        $mform->setDefault('goal1', $this->data->goal1 ?? "");
 
         $mform->addElement('text', 'team2', get_string('team2', 'local_footballscore'));
         $mform->setType('team2', PARAM_TEXT);
-        $mform->setDefault('team2', $this->data->team2);
+        $mform->setDefault('team2', $this->data->team2 ?? "");
 
         $mform->addElement('text', 'goal2', get_string('goal2', 'local_footballscore'));
         $mform->setType('goal2', PARAM_INT);
-        $mform->setDefault('goal2', $this->data->goal2);
+        $mform->setDefault('goal2', $this->data->goal2 ?? "");
 
         $this->add_action_buttons();
     }

@@ -23,14 +23,21 @@
  */
 
 require_once(__DIR__.'/../../config.php');
+require_once('./locallib.php');
 require_once($CFG->dirroot.'/local/footballscore/classes/form/edit_form.php');
 
-global $DB;
+try {
+    require_login();
+} catch (Exception $exception) {
+    print_r($exception);
+}
+
 
 $id = optional_param('id', 0, PARAM_INT);
 $PAGE->set_url(new moodle_url('/local/footballscore/edit.php', array('id' => $id)));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Edit Scores');
+$PAGE->set_title(get_string('createoredit', 'local_footballscore'));
+global $DB;
 
 // To be passed in the constructor of edit form.
 $actionurl = new moodle_url('/local/footballscore/edit.php');
@@ -42,29 +49,8 @@ else {
     $mform = new edit_form($actionurl);
 }
 
-if ($mform->is_cancelled()) {
-    //Back to manage.php
-    redirect(new moodle_url('/local/footballscore/manage.php'));
-} else if ($fromform = $mform->get_data()) {
-    // Inserting data to DB
-    $recordstoinsert = new stdClass();
-    $recordstoinsert->team1=$fromform->team1;
-    $recordstoinsert->team2=$fromform->team2;
-    $recordstoinsert->goal1=$fromform->goal1;
-    $recordstoinsert->goal2=$fromform->goal2;
-    if($fromform->id) {
-        $recordstoinsert->id = $fromform->id;
-        $DB->update_record('local_footballscore', $recordstoinsert);
-        // Go back to manage page.
-        redirect(new moodle_url('/local/footballscore/manage.php'), get_string('updatethanks', 'local_footballscore'));
-
-    } else {
-        $DB->insert_record('local_footballscore', $recordstoinsert);
-        // Go back to manage page.
-        redirect(new moodle_url('/local/footballscore/manage.php'), get_string('insertthanks', 'local_footballscore'));
-    }
-}
-
+// Edit or create a record for score.
+local_footballscore_edit_score($id, $mform);
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('createoredit', 'local_footballscore'));

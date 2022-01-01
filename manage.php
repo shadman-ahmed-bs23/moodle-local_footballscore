@@ -23,22 +23,21 @@
  */
 
 require_once(__DIR__.'/../../config.php');
+require_once('./locallib.php');
 
-global $DB;
+try {
+    require_login();
+} catch (Exception $exception) {
+    print_r($exception);
+}
 
 $PAGE->set_url(new moodle_url('/local/footballscore/manage.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Manage Football Scores');
-
-$goalrecords= $DB->get_records('local_footballscore');
+$PAGE->set_title(get_string('managepagetitle', 'local_footballscore'));
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'local_footballscore'));
-$templatecontext = (object)[
-    'texttodisplay'=> array_values($goalrecords),
-    'editurl'=> new moodle_url('/local/footballscore/edit.php'),
-    'deleteurl'=> new moodle_url('/local/footballscore/delete.php'),
-];
 
-echo $OUTPUT->render_from_template('local_footballscore/manage',$templatecontext);
+local_footballscore_display_scores();
+
 echo $OUTPUT->footer();

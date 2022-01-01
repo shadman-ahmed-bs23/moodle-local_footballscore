@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Deleting a score.
  *
  * @package    local_footballscore
  * @copyright  2021 Shadman Ahmed
@@ -30,7 +30,7 @@ $id = optional_param('id', 0, PARAM_INT);
 
 $PAGE->set_url(new moodle_url('/local/footballscore/delete.php', array('id' => $id)));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Delete Score');
+$PAGE->set_title(get_string('deletescore', 'local_footballscore'));
 
 try {
     $DB->delete_records('local_footballscore', array('id' => $id));

@@ -32,4 +32,5 @@ $string['createoredit'] = 'Create or Edit a Entry';
 $string['updatethanks'] = 'Thanks for updating a record';
 $string['insertthanks'] = 'Thanks for inserting a record';
 $string['deletemessage'] = "The record was deleted successfully!";
-
+$string['managepagetitle'] = "Manage Football Scores";
+$string['deletescore'] = "Delete Scores";
