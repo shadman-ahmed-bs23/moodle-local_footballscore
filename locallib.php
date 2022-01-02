@@ -28,17 +28,17 @@
  * @return void
  * @throws dml_exception
  */
-function local_footballscore_display_scores( ) {
+function local_footballscore_display_scores() {
     global $DB, $OUTPUT;
-    $goalrecords= $DB->get_records('local_footballscore');
+    $goalrecords = $DB->get_records('local_footballscore');
 
     // Data to be passed in the manage template.
-    $templatecontext = (object)[
-        'texttodisplay'=> array_values($goalrecords),
-        'editurl'=> new moodle_url('/local/footballscore/edit.php'),
+    $templatecontext = (object) [
+        'texttodisplay' => array_values($goalrecords),
+        'editurl' => new moodle_url('/local/footballscore/edit.php'),
     ];
 
-    echo $OUTPUT->render_from_template('local_footballscore/manage',$templatecontext);
+    echo $OUTPUT->render_from_template('local_footballscore/manage', $templatecontext);
 }
 
 /**
@@ -50,14 +50,13 @@ function local_footballscore_display_scores( ) {
  */
 function local_footballscore_init_form(int $id = null): edit_form {
     global $DB;
-    // To be passed in the constructor of edit form.
+
     $actionurl = new moodle_url('/local/footballscore/edit.php');
 
     if ($id) {
         $score = $DB->get_record('local_footballscore', array('id' => $id));
-        $mform=new edit_form($actionurl, $score);
-    }
-    else {
+        $mform = new edit_form($actionurl, $score);
+    } else {
         $mform = new edit_form($actionurl);
     }
     return $mform;
@@ -79,11 +78,11 @@ function local_footballscore_edit_score(edit_form $mform, int $id = null) {
     } else if ($fromform = $mform->get_data()) {
         // Handing the form data.
         $recordstoinsert = new stdClass();
-        $recordstoinsert->team1=$fromform->team1;
-        $recordstoinsert->team2=$fromform->team2;
-        $recordstoinsert->goal1=$fromform->goal1;
-        $recordstoinsert->goal2=$fromform->goal2;
-        if($fromform->id) {
+        $recordstoinsert->team1 = $fromform->team1;
+        $recordstoinsert->team2 = $fromform->team2;
+        $recordstoinsert->goal1 = $fromform->goal1;
+        $recordstoinsert->goal2 = $fromform->goal2;
+        if ($fromform->id) {
             // Update the record.
             $recordstoinsert->id = $fromform->id;
             $DB->update_record('local_footballscore', $recordstoinsert);
