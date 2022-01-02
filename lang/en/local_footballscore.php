@@ -34,3 +34,6 @@ $string['insertthanks'] = 'Thanks for inserting a record';
 $string['deletemessage'] = "The record was deleted successfully!";
 $string['managepagetitle'] = "Manage Football Scores";
 $string['deletescore'] = "Delete Scores";
+$string['deletetitle'] = "Confirm Delete";
+$string['modalmessage'] = "Do you really want to delete this amazing score?";
+$string['delete'] = "Delete";

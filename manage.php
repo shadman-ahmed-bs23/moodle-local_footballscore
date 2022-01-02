@@ -38,6 +38,7 @@ $PAGE->set_title(get_string('managepagetitle', 'local_footballscore'));
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'local_footballscore'));
 
+$PAGE->requires->js_call_amd('local_footballscore/confirmdelete', 'init', array());
 local_footballscore_display_scores();
 
 echo $OUTPUT->footer();

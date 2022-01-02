@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Edit or Create a record.
+ * External API for local_footballscore.
  *
  * @package    local_footballscore
  * @copyright  2021 Shadman Ahmed
@@ -25,9 +25,10 @@
 require_once($CFG->libdir . "/externallib.php");
 require_once($CFG->dirroot . "/local/footballscore/locallib.php");
 
+
 class local_footballscore_external extends external_api {
     /**
-     * Returns description of method parameters
+     * Returns description of method parameters.
      * @return external_function_parameters
      */
     public static function delete_score_by_id_parameters(): external_function_parameters {
@@ -39,8 +40,11 @@ class local_footballscore_external extends external_api {
     }
 
     /**
+     * Delete score by id function.
+     *
      * @param int $scoreid
      * @return array
+     * @throws moodle_exception
      */
     public static function delete_score_by_id(int $scoreid): array {
         global $DB;
@@ -57,7 +61,7 @@ class local_footballscore_external extends external_api {
     }
 
     /**
-     * Returns description of method result value
+     * Returns description of method result value.
      * @return external_description
      */
     public static function delete_score_by_id_returns() {
