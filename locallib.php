@@ -26,38 +26,37 @@
  * This function prints all the score from the db table.
  *
  * @return void
+ * @throws dml_exception
  */
-function local_footballscore_display_scores( ) {
+function local_footballscore_display_scores() {
     global $DB, $OUTPUT;
-    $goalrecords= $DB->get_records('local_footballscore');
+    $goalrecords = $DB->get_records('local_footballscore');
 
     // Data to be passed in the manage template.
-    $templatecontext = (object)[
-        'texttodisplay'=> array_values($goalrecords),
-        'editurl'=> new moodle_url('/local/footballscore/edit.php'),
-        'deleteurl'=> new moodle_url('/local/footballscore/delete.php'),
+    $templatecontext = (object) [
+        'texttodisplay' => array_values($goalrecords),
+        'editurl' => new moodle_url('/local/footballscore/edit.php'),
     ];
 
-    echo $OUTPUT->render_from_template('local_footballscore/manage',$templatecontext);
+    echo $OUTPUT->render_from_template('local_footballscore/manage', $templatecontext);
 }
 
 /**
  * This function init the edit_form class and return the object.
  *
- * @param int $id
+ * @param int|null $id
  * @return edit_form
  * @throws dml_exception
  */
-function local_footballscore_init_form($id = null): edit_form {
+function local_footballscore_init_form(int $id = null): edit_form {
     global $DB;
-    // To be passed in the constructor of edit form.
+
     $actionurl = new moodle_url('/local/footballscore/edit.php');
 
     if ($id) {
         $score = $DB->get_record('local_footballscore', array('id' => $id));
-        $mform=new edit_form($actionurl, $score);
-    }
-    else {
+        $mform = new edit_form($actionurl, $score);
+    } else {
         $mform = new edit_form($actionurl);
     }
     return $mform;
@@ -66,11 +65,12 @@ function local_footballscore_init_form($id = null): edit_form {
 /**
  * This function create or edit a single record.
  *
- * @param int $id
+ * @param int|null $id
  * @param edit_form $mform
  * @return void
+ * @throws moodle_exception
  */
-function local_footballscore_edit_score($mform, $id = null) {
+function local_footballscore_edit_score(edit_form $mform, int $id = null) {
     global $DB;
     if ($mform->is_cancelled()) {
         //Back to manage.php
@@ -78,11 +78,11 @@ function local_footballscore_edit_score($mform, $id = null) {
     } else if ($fromform = $mform->get_data()) {
         // Handing the form data.
         $recordstoinsert = new stdClass();
-        $recordstoinsert->team1=$fromform->team1;
-        $recordstoinsert->team2=$fromform->team2;
-        $recordstoinsert->goal1=$fromform->goal1;
-        $recordstoinsert->goal2=$fromform->goal2;
-        if($fromform->id) {
+        $recordstoinsert->team1 = $fromform->team1;
+        $recordstoinsert->team2 = $fromform->team2;
+        $recordstoinsert->goal1 = $fromform->goal1;
+        $recordstoinsert->goal2 = $fromform->goal2;
+        if ($fromform->id) {
             // Update the record.
             $recordstoinsert->id = $fromform->id;
             $DB->update_record('local_footballscore', $recordstoinsert);
@@ -95,5 +95,21 @@ function local_footballscore_edit_score($mform, $id = null) {
             // Go back to manage page.
             redirect(new moodle_url('/local/footballscore/manage.php'), get_string('insertthanks', 'local_footballscore'));
         }
+    }
+}
+
+/**
+ * This function delete a single record.
+ *
+ * @param int|null $id
+ * @return void
+ * @throws moodle_exception
+ */
+function local_footballscore_delete_score($id) {
+    global $DB;
+    try {
+        $DB->delete_records('local_footballscore', array('id' => $id));
+    } catch (Exception $exception) {
+        throw new moodle_exception($exception);
     }
 }

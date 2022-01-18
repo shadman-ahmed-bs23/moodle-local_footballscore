@@ -15,28 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Deleting a score.
+ * Edit or Create a record.
  *
  * @package    local_footballscore
  * @copyright  2021 Shadman Ahmed
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(__DIR__.'/../../config.php');
-
-global $DB;
-
-$id = optional_param('id', 0, PARAM_INT);
-
-$PAGE->set_url(new moodle_url('/local/footballscore/delete.php', array('id' => $id)));
-$PAGE->set_context(\context_system::instance());
-$PAGE->set_title(get_string('deletescore', 'local_footballscore'));
-
-try {
-    $DB->delete_records('local_footballscore', array('id' => $id));
-    redirect(new moodle_url('/local/footballscore/manage.php'), get_string('deletemessage', 'local_footballscore'));
-} catch (Exception $exception) {
-    throw new moodle_exception($exception);
-}
-
-
+$functions = array(
+    'local_foootballscore_delete_score_by_id' => array(
+        'classname'   => 'local_footballscore_external',
+        'methodname'  => 'delete_score_by_id',
+        'classpath'   => 'local/footballscore/external.php',
+        'description' => 'Delete a single score by id',
+        'type'        => 'write',
+        'ajax'        => true
+    ),
+);
